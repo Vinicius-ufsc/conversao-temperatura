@@ -1,0 +1,47 @@
+# criar um container usando a imagem (instruções) container_name
+# usando --name, define um nome para o container
+# usando --rm o container é excluído após terminar a execução.
+docker container run docker_image --name container_name --rm 
+
+# lista os containers em execução.
+# usando a opção -a lista todos os containers.
+docker container ls -a
+
+# para trabalhar de forma interativa (abrir um terminal dentro do container ubuntu por exemplo).
+# -it docker_image /bin/bash abre o terminal bash dentro do container.
+# -p vincula a porta do container com a porta local (port binding local:container). 
+# -d faz rodar em segundo plano (modo daemon)
+docker container run -it -p 8080:80 ubuntu /bin/bash
+
+# abre o bash em um container (container_id) em execução.
+docker container exec -it container_id /bin/bash
+
+# exclui um container, use docker container ls -a para obter o id.
+docker container rm container_id 
+
+# ao consultar uma imagem já existe, podemos passar variáveis de ambiente,
+# caso existam usando -e VARIÁVEL_DE_AMBIENTE=value.
+docker -e VARIÁVEL_DE_AMBIENTE=value
+
+# para um container em execução.
+docker container stop container_id
+
+# cria um container a partir de uma imagem.
+docker build -t nome_da_imagem -f path/to/dockerfile
+
+# faz login no docker hub.
+docker login
+
+# faz o push do container para o docker hub.
+docker push namespace/container:version
+
+---------------------------------------------------
+Dockerfile (instruções para criação de um imagem)
+# toda imagem docker tem como base outra imagem, este imagem base é especificada em FROM
+FROM ubuntu
+# RUN é usado para executar instruções na instalação da imagem,
+# neste caso vamos rodar um apt update e install no terminal.
+# --yes para não pedir confirmações yes/no.
+RUN apt update
+RUN apt install vim --yes
+
